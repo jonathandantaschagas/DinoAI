@@ -14,7 +14,7 @@ start = time.time()
 # Predição
 def predict(game_element):
 
-    # configuration for image capture
+    # Configurando o corte da imagem do jogo. Vai variar de acordo com o tamanho da tela
     sct = mss()
     coordinates = {
         'top': 180,
@@ -23,10 +23,10 @@ def predict(game_element):
         'height': 150,
     }
 
-    # image capture
+    # Capturar a imagem
     img = np.array(sct.grab(coordinates))
 
-    # cropping, edge detection, resizing to fit expected model input
+    # Adaptando a imagem para ajustar melhor ajuste ao meu modelo
     img = img[::,75:615]
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
     img = cv2.Canny(img, threshold1=100, threshold2=200)
@@ -34,20 +34,25 @@ def predict(game_element):
     img = img[np.newaxis, :, :, np.newaxis]
     img = np.array(img)
 
-    # model prediction
+    # predição
     y_prob = model.predict(img)
     prediction = y_prob.argmax(axis=-1)
 
+    # Se a previção for 1
     if prediction == 1:
-        # Cima
+        # Pular
         game_element.send_keys(u'\ue013')
         print('JUMP')
         time.sleep(.07)
+
+    # Se a previsão for 0
     if prediction == 0:
+        # Não faz nada
         print('NOTHING')
-        # Dumming
         pass
+    # Se a previsão for 2 
     if prediction == 2:
+        # Abaixar
         print('DOWN')
         # Down
         game_element.send_keys(u'\ue015')

@@ -35,20 +35,20 @@ while img_num < len(os.listdir('../images')):
 X = np.array(all_images)
 print(X[0].shape)
 
-# split into test and train set
+# Dividir dataset em train set e test set
 x_train, x_test, y_train, y_test = train_test_split(X, Y, test_size=.2, random_state=5)
 
-## input image dimensions
+## Definindo a dimensão das images
 img_x, img_y = 90, 262
 input_shape = (img_x, img_y, 1)
 
-# convert class vectors to binary class matricies for use in catagorical_crossentropy loss below
-# number of action classifications
+# Converter os vetores para matrizes binárias para utilizar o cross_entropy
+# Numero de classificações é 3. Queremos obter 3 status diferente. 0 (Pular), 1 (Nada), 2(Abaixar)
 classifications = 3
 y_train = keras.utils.to_categorical(y_train, classifications)
 y_test = keras.utils.to_categorical(y_test, classifications)
 
-# CNN model
+# Model CNN (Convolutional Neural Network)
 model = Sequential()
 model.add(Conv2D(100, kernel_size=(2, 2), strides=(2, 2), activation='relu', input_shape=input_shape))
 model.add(MaxPooling2D(pool_size=(2, 2)))
@@ -57,10 +57,10 @@ model.add(Dense(250, activation='relu'))
 model.add(Dense(classifications, activation='softmax'))
 model.compile(loss="categorical_crossentropy", optimizer="adam", metrics=['accuracy'])
 
-# tensorboard data callback
+# Capturando dados do Tensorboard
 tbCallBack = keras.callbacks.TensorBoard(log_dir='./Graph', histogram_freq=0, write_graph=True, write_images=True)
 
 model.fit(x_train, y_train, batch_size=250, epochs=22, validation_data=(x_test, y_test), callbacks=[tbCallBack])
 
-# save weights post training
+# Salvar a aprendizagem para utilizar depois.
 model.save('dino_ai_weights_post_train.h5')

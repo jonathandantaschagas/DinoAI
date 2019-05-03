@@ -5,6 +5,7 @@ import threading
 from capture import capture_feed
 from network import ai_player
 
+# Altere este diretório para onde está o driver do selenium
 driver = webdriver.Chrome('C:/Users/jochagas/Documents/Selenium/Driver/Chrome/chromedriver.exe')
 
 # Chama pagina web

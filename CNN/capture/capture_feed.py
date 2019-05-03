@@ -46,7 +46,6 @@ def start():
                 print('Nothing')
                 x += 1
 
-            # break the video feed
             if cv2.waitKey(25) & 0xFF == ord('q'):
                 csv.close()
                 cv2.destroyAllWindows()

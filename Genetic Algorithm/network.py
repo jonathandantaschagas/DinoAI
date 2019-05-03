@@ -11,9 +11,9 @@ class Network:
         self.fitness = 0
 
     def forward(self, inputs):
-        self.z2 = np.dot(inputs, self.W1) #  ∑ input.W1
+        self.z2 = np.dot(inputs, self.W1) #  ∑ x * w
         self.a2 = np.tanh(self.z2) # Função de ativação
-        self.z3 = np.dot(self.a2, self.W2) # ∑ a2.W2
+        self.z3 = np.dot(self.a2, self.W2) # ∑ x * x
         y = np.tanh(self.z3) # Função de ativação
         return y # Valor Previsto
 
